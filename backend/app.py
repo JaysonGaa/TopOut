@@ -9,7 +9,7 @@ from detect_holds import detect_holds
 load_dotenv()
 
 app = Flask(__name__)
-CORS(app, resources={r"/api/*": {"origins": "http://localhost:5173"}})
+CORS(app, resources={r"/api/*": {"origins": ["http://localhost:5173", "http://localhost:5174", "http://localhost:5175", "http://localhost:5176"]}})
 
 NVIDIA_AVAILABLE = bool(os.getenv("NVIDIA_API_KEY"))
 
