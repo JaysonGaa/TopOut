@@ -5,9 +5,9 @@ backend/*.pyc
 backend/uploads/
 
 # Frontend
-frontend/node_modules/
-frontend/dist/
-frontend/.env
+frontEnd/node_modules/
+frontEnd/dist/
+frontEnd/.env
 
 # General
 .DS_Store
