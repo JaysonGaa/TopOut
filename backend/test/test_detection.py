@@ -3,7 +3,7 @@ import base64
 import json
 from pathlib import Path
 
-print("🧪 Testing OpenCV Hold Detection")
+print("Testing OpenCV Hold Detection")
 print("=" * 50)
 
 # Load image
@@ -11,7 +11,7 @@ image_path = Path("test.jpeg")
 with open(image_path, "rb") as img_file:
     image_data = base64.b64encode(img_file.read()).decode('utf-8')
 
-print("✅ Image loaded")
+print("Image loaded")
 
 # Test each color separately
 colors_to_test = ["red", "blue", "green", "yellow", "purple", "pink"]
@@ -35,15 +35,15 @@ for color in colors_to_test:
         holds = result.get('holds', [])
         method = result.get('detection_method', 'unknown')
         
-        print(f"   ✅ Found {len(holds)} {color} holds (method: {method})")
+        print(f" Found {len(holds)} {color} holds (method: {method})")
         all_results[color] = holds
     else:
-        print(f"   ❌ Error: {response.status_code}")
+        print(f" Error: {response.status_code}")
         print(f"   {response.text}")
 
 # Summary
 print(f"\n" + "=" * 50)
-print(f"📊 SUMMARY")
+print(f"SUMMARY")
 print(f"=" * 50)
 
 total_holds = 0
