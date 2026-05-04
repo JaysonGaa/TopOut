@@ -1,4 +1,4 @@
-# TopOut 🧗
+# TopOut 
 
 **AI-Powered Climbing Beta Generator**
 
