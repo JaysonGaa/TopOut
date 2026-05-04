@@ -8,16 +8,23 @@ import './App.css'
 function App() {
   const [stage, setStage] = useState('upload')
   const [uploadedImage, setUploadedImage] = useState(null)
+  const [selectedColor, setSelectedColor] = useState('red')
   const [holds, setHolds] = useState([])
+  const [startIds, setStartIds] = useState(null)
+  const [endId, setEndId] = useState(null)
 
   const handleReset = () => {
     setStage('upload')
     setUploadedImage(null)
+    setSelectedColor('red')
     setHolds([])
+    setStartIds(null)
+    setEndId(null)
   }
 
-  const handleImageUpload = (imageData) => {
+  const handleImageUpload = (imageData, color) => {
     setUploadedImage(imageData)
+    setSelectedColor(color)
     setStage('visualize')
   }
 
@@ -26,8 +33,10 @@ function App() {
     setStage('edit')
   }
 
-  const handleRouteConfirmed = (editedHolds) => {
+  const handleRouteConfirmed = (editedHolds, newStartIds, newEndId) => {
     setHolds(editedHolds)
+    setStartIds(newStartIds)
+    setEndId(newEndId)
     setStage('animate')
   }
 
@@ -45,6 +54,7 @@ function App() {
         {stage === 'visualize' && (
           <HoldVisualizer
             image={uploadedImage}
+            color={selectedColor}
             onHoldsDetected={handleHoldsDetected}
           />
         )}
@@ -59,7 +69,10 @@ function App() {
           <ClimberAnimation
             image={uploadedImage}
             holds={holds}
+            startIds={startIds}
+            endId={endId}
             onReset={handleReset}
+            imageForRoute={uploadedImage}
           />
         )}
       </main>

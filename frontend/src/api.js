@@ -46,15 +46,19 @@ export async function detectHolds(imageDataUrl, options = {}) {
  * When the backend adds `POST /api/generate-route`, call this.
  * (Name avoids clashing with the local `generateRoute` sort in `ClimberAnimation.jsx`.)
  */
-export async function requestServerRoute(holds) {
+export async function requestServerRoute(holds, startHoldIds = null, endHoldId = null, imageDataUrl = null) {
+  const body = { holds, start_hold_ids: startHoldIds, end_hold_id: endHoldId }
+  if (imageDataUrl) {
+    body.image = imagePayloadForServer(imageDataUrl)
+  }
   const response = await fetch(`${API_BASE}/api/generate-route`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ holds }),
+    body: JSON.stringify(body),
   })
   const data = await response.json().catch(() => ({}))
   if (!response.ok) {
     throw new Error(data.error || `Route generation failed (${response.status})`)
   }
-  return data
+  return data.route ?? []
 }

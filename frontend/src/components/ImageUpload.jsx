@@ -1,8 +1,20 @@
 import { useState, useRef } from 'react'
 
+const COLORS = [
+  { key: 'red',    hex: '#ff4d00' },
+  { key: 'blue',   hex: '#1e90ff' },
+  { key: 'yellow', hex: '#f5c518' },
+  { key: 'green',  hex: '#00cc66' },
+  { key: 'purple', hex: '#9b59b6' },
+  { key: 'pink',   hex: '#ff69b4' },
+  { key: 'white',  hex: '#e5e5e5' },
+  { key: 'black',  hex: '#444444' },
+]
+
 function ImageUpload({ onImageUpload }) {
   const [isDragging, setIsDragging] = useState(false)
   const [preview, setPreview] = useState(null)
+  const [color, setColor] = useState('red')
   const fileInputRef = useRef(null)
 
   const handleFile = (file) => {
@@ -73,14 +85,48 @@ function ImageUpload({ onImageUpload }) {
       />
 
       {preview && (
-        <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', marginTop: '1.5rem' }}>
-          <button className="btn btn-secondary" onClick={() => { setPreview(null); fileInputRef.current.click() }}>
-            Change Photo
-          </button>
-          <button className="btn btn-primary" onClick={() => onImageUpload(preview)}>
-            Analyze Route
-          </button>
-        </div>
+        <>
+          {/* Color picker */}
+          <div style={{ marginTop: '1.5rem' }}>
+            <p style={{ fontSize: '0.85rem', color: 'var(--text-muted)', marginBottom: '0.75rem' }}>
+              What color are the holds?
+            </p>
+            <div style={{ display: 'flex', gap: '0.6rem', justifyContent: 'center', flexWrap: 'wrap' }}>
+              {COLORS.map(({ key, hex }) => (
+                <button
+                  key={key}
+                  type="button"
+                  title={key}
+                  onClick={() => setColor(key)}
+                  style={{
+                    width: 36,
+                    height: 36,
+                    borderRadius: '50%',
+                    background: hex,
+                    border: `3px solid ${color === key ? 'var(--accent)' : 'transparent'}`,
+                    outline: color === key ? '2px solid var(--accent)' : '2px solid transparent',
+                    outlineOffset: 2,
+                    cursor: 'pointer',
+                    padding: 0,
+                    transition: 'outline 0.1s',
+                  }}
+                />
+              ))}
+            </div>
+            <p style={{ fontSize: '0.8rem', color: 'var(--accent)', marginTop: '0.5rem', fontWeight: 600 }}>
+              {color}
+            </p>
+          </div>
+
+          <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', marginTop: '1.25rem' }}>
+            <button className="btn btn-secondary" onClick={() => { setPreview(null); fileInputRef.current.click() }}>
+              Change Photo
+            </button>
+            <button className="btn btn-primary" onClick={() => onImageUpload(preview, color)}>
+              Analyze Route
+            </button>
+          </div>
+        </>
       )}
     </div>
   )

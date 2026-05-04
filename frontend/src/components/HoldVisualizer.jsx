@@ -12,7 +12,7 @@ const HOLD_COLORS = {
   black: '#555555',
 }
 
-function HoldVisualizer({ image, onHoldsDetected }) {
+function HoldVisualizer({ image, color = 'red', onHoldsDetected }) {
   const canvasRef = useRef(null)
   const [holds, setHolds] = useState([])
   const [loading, setLoading] = useState(true)
@@ -27,7 +27,7 @@ function HoldVisualizer({ image, onHoldsDetected }) {
       setLoading(true)
       setError(null)
       try {
-        const detected = await detectHolds(image)
+        const detected = await detectHolds(image, { color })
         if (!cancelled) setHolds(detected)
       } catch (e) {
         if (!cancelled) setError(e.message || 'Detection failed')
