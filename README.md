@@ -276,7 +276,7 @@ Real climbing beta requires knowing where the climber's center of gravity is at 
 
 ## If We Had More Time
 
-1. **Hold type classification** — ask Nemotron: "is this hold a jug, crimp, sloper, or foothold?" and use that to constrain which limbs can use it. Footholds → feet only, jugs → hands preferred.
+1. **Real hold type classification** — the current code labels holds as `crimp`, `sloper`, or `jug` based purely on detected blob size (small = crimp, large = jug). This is meaningless — hold type is determined by shape, texture, and angle, none of which our system reads. A proper implementation would ask Nemotron to visually classify each hold and use that to constrain limb assignment (footholds → feet only, jugs → hands preferred).
 2. **Body state simulation** — track hip position and shoulder position after every move and reject any move that puts the body in an impossible or unstable configuration.
 3. **A\* pathfinding over body states** — instead of picking holds greedily, search for the sequence of body states (all 4 limb positions) with the lowest total difficulty score.
 4. **Train on real beta** — collect video of climbers and label which hold each limb goes to. Use that as training data or few-shot examples for Nemotron.
